@@ -6,6 +6,7 @@ export const ACTIONS = {
   TOGGLE_HIDE_COMPLETED: 'TOGGLE_HIDE_COMPLETED',
   TOGGLE_EDIT: 'TOGGLE_EDIT',
   EDIT_TODO: 'EDIT_TODO',
+  TOGGLE_PIN: 'TOGGLE_PIN',
 };
 
 export function todoReducer(state, { type, payload }) {
@@ -18,9 +19,10 @@ export function todoReducer(state, { type, payload }) {
             id: Date.now(),
             name: payload.name,
             checked: false,
+            isPinned: false,
           },
           ...state?.todos,
-        ],
+        ].sort(sortTodos),
       };
     }
     case ACTIONS.EDIT_TODO: {
@@ -56,7 +58,12 @@ export function todoReducer(state, { type, payload }) {
         todos: state.todos
           .map((todo) =>
             todo.id === payload.id
-              ? { ...todo, checked: !payload.checked }
+              ? {
+                  ...todo,
+                  checked: !payload.checked,
+                  completedAt: Date.now(),
+                  isPinned: !payload.checked ? false : todo.isPinned,
+                }
               : todo
           )
           .sort(sortTodos),
@@ -78,6 +85,18 @@ export function todoReducer(state, { type, payload }) {
         ),
       };
     }
+    case ACTIONS.TOGGLE_PIN: {
+      return {
+        ...state,
+        todos: state.todos
+          .map((todo) =>
+            todo.id === payload.id
+              ? { ...todo, isPinned: !payload.isPinned, pinTime: Date.now() }
+              : { ...todo }
+          )
+          .sort(sortTodos),
+      };
+    }
     default: {
       return state;
     }
@@ -85,6 +104,18 @@ export function todoReducer(state, { type, payload }) {
 }
 
 function sortTodos(a, b) {
+  if (a.isPinned === true && b.isPinned === true) {
+    return b.pinTime - a.pinTime;
+  }
+
+  if (a.isPinned === true && b.isPinned === false) {
+    return -1;
+  }
+
+  if (a.isPinned === false && b.isPinned === true) {
+    return 1;
+  }
+
   if (a.checked === false && b.checked === false) {
     return b.id - a.id;
   }
@@ -98,7 +129,7 @@ function sortTodos(a, b) {
   }
 
   if (a.checked === true && b.checked === true) {
-    return b.id - a.id;
+    return b.completedAt - a.completedAt;
   }
 
   {

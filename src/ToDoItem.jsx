@@ -3,7 +3,7 @@ import { TodolistContext } from './context';
 import { ACTIONS } from './todoReducer';
 import { Box, Button, Checkbox, Input, Text } from '@chakra-ui/react';
 
-export function ToDoItem({ id, name, checked, isEdit }) {
+export function ToDoItem({ id, name, checked, isEdit, isPinned }) {
   const editRef = useRef();
   const { dispatch } = useContext(TodolistContext);
 
@@ -57,12 +57,27 @@ export function ToDoItem({ id, name, checked, isEdit }) {
               })
             }
           />
-          <Text className="text" fontSize={'md'}>
+          <Text
+            className="text"
+            fontSize={'md'}
+            fontWeight={isPinned && 'bold'}
+          >
             {name}
           </Text>
         </label>
       )}
       <div className="edit-delete">
+        {!checked && (
+          <Button
+            type="button"
+            size={'sm'}
+            onClick={() =>
+              dispatch({ type: ACTIONS.TOGGLE_PIN, payload: { id, isPinned } })
+            }
+          >
+            {isPinned ? 'Unpin' : 'Pin'}
+          </Button>
+        )}
         <Button
           type="button"
           size={'sm'}
@@ -81,7 +96,7 @@ export function ToDoItem({ id, name, checked, isEdit }) {
             dispatch({ type: ACTIONS.DELETE_TODO, payload: { id } })
           }
         >
-          ❌
+          Delete
         </Button>
       </div>
     </Box>
