@@ -1,0 +1,136 @@
+body {
+  box-sizing: border-box;
+  display: flex;
+  height: 100svh;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.main-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 600px;
+  margin: auto;
+}
+
+.card-body {
+  max-height: 500px;
+  overflow: scroll;
+}
+
+.text {
+  margin-left: 1em;
+}
+
+.btn {
+  padding: 0.5em;
+  border-radius: 0.5rem;
+  border: 1px solid #aaa;
+}
+
+.new-todo {
+  width: 100%;
+}
+
+#new-todo-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+#list {
+  padding: 0;
+}
+
+.list-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-height: 200px;
+}
+
+.list-item-label {
+  display: flex;
+}
+
+.list-item-label:hover,
+[data-list-item-checkbox]:hover {
+  cursor: pointer;
+}
+
+.list-item-label:hover > [data-list-item-text] {
+  color: #333;
+  text-decoration: line-through;
+}
+
+[data-list-item-checkbox]:checked ~ [data-list-item-text] {
+  text-decoration: line-through;
+  color: #aaa;
+}
+
+[data-button-delete] {
+  margin-left: 0.5rem;
+}
+
+button {
+  cursor: pointer;
+}
+
+[data-button-edit] {
+  margin-left: 0.5rem;
+}
+
+.edit-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.hide-completed-wrapper {
+  position: absolute;
+  bottom: 1rem;
+  left: 1rem;
+  display: flex;
+  gap: 0.5em;
+}
+
+.no-todo-placeholder {
+  text-align: center;
+}
+
+#search-field {
+  position: absolute;
+  max-width: 250px;
+  top: 1rem;
+  right: 1rem;
+}
+
+.edit-delete {
+  flex-shrink: 0;
+}
+
+@media (max-width: 600px) {
+  .main-container {
+    gap: 1rem;
+    width: 90%;
+    margin: auto;
+  }
+  .list-item {
+    height: 1rem;
+  }
+  #search-field {
+    max-width: 80%;
+    left: 1rem;
+    right: 1rem;
+    margin: auto;
+  }
+  .card-body {
+    max-height: 60svh;
+  }
+}
+
+/* .filter-form-group {
+  display: flex;
+  gap: 0.25rem;
+} */
