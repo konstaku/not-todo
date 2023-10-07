@@ -1,7 +1,7 @@
 import { useContext } from 'react';
 import { ToDoItem } from './ToDoItem';
 import { TodolistContext } from './context';
-import { Card, CardBody, Stack, StackDivider, Text } from '@chakra-ui/react';
+import { Text } from '@chakra-ui/react';
 
 export function TodoList() {
   const { state } = useContext(TodolistContext);
@@ -17,22 +17,18 @@ export function TodoList() {
     .map((todo) => <ToDoItem key={todo.id} {...todo} />);
 
   return (
-    <Card className="card">
-      <CardBody className="card-body">
-        <Stack divider={<StackDivider />} spacing="4">
-          {todos.length > 0 && filteredTodos.length > 0 ? (
-            filteredTodos
-          ) : query && filteredTodos.length === 0 ? (
-            <Text className="no-todo-placeholder" color={'gray'}>
-              🤷‍♂️ {`No results for "${query}"`}
-            </Text>
-          ) : (
-            <Text className="no-todo-placeholder" color={'gray'}>
-              👀 Nothing to do yet...
-            </Text>
-          )}
-        </Stack>
-      </CardBody>
-    </Card>
+    <div className="todolist-wrapper">
+      {todos.length > 0 && filteredTodos.length > 0 ? (
+        filteredTodos
+      ) : query && filteredTodos.length === 0 ? (
+        <Text className="no-todo-placeholder" color={'gray'}>
+          🤷‍♂️ {`No results for "${query}"`}
+        </Text>
+      ) : (
+        <Text className="no-todo-placeholder" color={'gray'}>
+          👀 Nothing to do yet...
+        </Text>
+      )}
+    </div>
   );
 }

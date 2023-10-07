@@ -36,6 +36,12 @@ export function SearchBar() {
         placeholder="Search"
         defaultValue={query || null}
         variant={'flushed'}
+        position="absolute"
+        top={'1rem'}
+        right={['1rem', '1rem', '2rem']}
+        left={['1rem', '1rem', 'auto']}
+        maxWidth={['90%', '80%', '250px']}
+        margin={['auto', 'auto']}
         id="search-field"
         onChange={(e) => {
           dispatch({
